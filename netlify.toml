@@ -1,0 +1,11 @@
+# Netlify configuration file for static site deployment
+
+[build]
+  # No build command needed for static site
+  publish = "/"
+
+# Redirect all requests to index.html (useful for SPA)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
