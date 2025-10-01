@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sentiment Analysis Web App</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #5563DE;
+            --secondary-color: #74ABE2;
+            --accent-color: #ff6384;
+            --background-color: #f0f4ff;
+            --text-color-dark: #17313E;
+            --text-color-light: #415E72;
+            --container-bg: #ffffff;
+            --border-radius: 20px;
+            --box-shadow: 0 10px 24px -6px #c0dbfc, 0 20px 40px -10px #a2bded47, 0 30px 60px -15px #8bb8e847;
+            --font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        body {
+            font-family: var(--font-family);
+            background: var(--background-color);
+            margin: 0;
+            padding: 0;
+            animation: fadeIn 1s ease-in;
+            color: var(--text-color-dark);
+        }
+        .container {
+            max-width: 700px;
+            background: var(--container-bg);
+            margin: 40px auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 32px 28px 38px 28px;
+            animation: fadeIn 1.5s ease-in;
+        }
+        h1 {
+            color: var(--text-color-dark);
+            font-size: 2.4em;
+            margin-bottom: 18px;
+            text-shadow: 2px 2px 0px #ccc, 4px 4px 0px #aaa, 6px 6px 0px #888;
+            animation: fadeIn 2s ease-in;
+        }
+        .form-section {
+            margin-bottom: 26px;
+            animation: fadeIn 2.5s ease-in;
+        }
+        input[type="file"] {
+            padding: 8px;
+            margin-bottom: 10px;
+            background: var(--container-bg);
+            border-radius: 10px;
+            border: 1px solid var(--secondary-color);
+            transition: all 0.3s;
+        }
+        input[type="file"]:focus {
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+        button {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-left: 6px;
+            transition: all 0.3s;
+            box-shadow: 0 6px 12px rgba(85, 99, 222, 0.4);
+        }
+        button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(85, 99, 222, 0.6);
+        }
+        .error {
+            background: #ffdddd;
+            color: #c51111;
+            border-left: 4px solid #ff5e5e;
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 10px;
+            animation: fadeIn 1s ease-in;
+        }
+        .success {
+            background: #ebfae7;
+            color: #176318;
+            border-left: 4px solid #58d05a;
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 10px;
+            animation: fadeIn 1s ease-in;
+        }
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.4em;
+            margin-top: 28px;
+            text-shadow: 1px 1px 0px #ddd, 2px 2px 0px #bbb, 3px 3px 0px #999;
+            animation: fadeIn 1s ease-in;
+        }
+        .dataframe {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1em;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            animation: fadeIn 1s ease-in;
+        }
+        .dataframe th, .dataframe td {
+            border: 1px solid var(--secondary-color);
+            padding: 10px 8px;
+            text-align: left;
+        }
+        .dataframe th {
+            background: var(--secondary-color);
+            color: var(--text-color-dark);
+        }
+        img {
+            margin-top: 18px;
+            max-width: 100%;
+            border-radius: 10px;
+            border: 1px solid var(--secondary-color);
+            box-shadow: 0 4px 16px -4px var(--secondary-color), 0 8px 32px -8px var(--primary-color);
+            transition: transform 0.3s;
+            animation: fadeIn 1s ease-in;
+        }
+        img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Reduced spacing for reviews sections */
+        .reviews-section {
+            margin-bottom: 20px;
+        }
+        .reviews-section.negative-section {
+            margin-bottom: 0;
+        }
+        .reviews-h2 {
+            margin-top: 28px;
+            margin-bottom: 0;
+        }
+        .reviews-section:first-of-type .reviews-h2 {
+            margin-top: 10px;
+        }
+        .reviews-btn {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            background: var(--accent-color);
+        }
+        .reviews-btn:hover {
+            background: #ff4d6d;
+        }
+        #positiveList, #negativeList {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        @media (max-width: 750px) {
+            .container {
+                margin: 16px;
+                padding: 16px 8px 24px 8px;
+            }
+            h1 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Sentiment Analytics Dashboard for User Reviews</h1>
+    <p class="description">Visualizes user sentiments from uploaded reviews.</p>
+    <!-- Dark Mode toggle removed as per user request -->
+    <form class="form-section" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".csv" required>
+        <button type="submit">Analyze CSV</button>
+    </form>
+    <button onclick="window.location.href='/feedback'">Feedback</button>
+
+    <section class="features" style="margin-top: 40px;">
+        <h2>Project Focus</h2>
+        <div class="feature-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+            <div class="feature-item" style="padding: 1rem; background: #f9f9f9; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h3>AI-Powered Sentiment Insights</h3>
+                <p>Instantly analyze and classify reviews using advanced artificial intelligence.</p>
+            </div>
+            <div class="feature-item" style="padding: 1rem; background: #f9f9f9; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h3>User-Friendly Upload</h3>
+                <p>Seamless CSV upload for rapid review processing—no technical expertise required.</p>
+            </div>
+            <div class="feature-item" style="padding: 1rem; background: #f9f9f9; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h3>Actionable Visualization</h3>
+                <p>Charts and tables deliver clear feedback on customer mood, trends, and satisfaction.</p>
+            </div>
+            <div class="feature-item" style="padding: 1rem; background: #f9f9f9; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h3>Reliable Results</h3>
+                <p>Machine learning ensures accurate sentiment classification for meaningful decision-making.</p>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .features {
+            max-width: 700px;
+            margin: 40px auto 0 auto;
+            padding: 0 28px 38px 28px;
+            background: var(--container-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            animation: fadeIn 1.5s ease-in;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .feature-item {
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+    {% if tables %}
+    <h2>Sentiment Summary</h2>
+    {% if total_reviews %}
+    <p>Analyzed {{ total_reviews }} reviews.</p>
+    {% endif %}
+    {{ tables[0]|safe }}
+    {% endif %}
+    {% if plot_url %}
+    <h2>Sentiment Distribution (Bar Chart)</h2>
+    <img src="{{ plot_url }}" alt="Sentiment Distribution Bar Chart">
+    {% endif %}
+    {% if pie_url %}
+    <h2>Sentiment Distribution (Pie Chart)</h2>
+    <img src="{{ pie_url }}" alt="Sentiment Distribution Pie Chart">
+    {% endif %}
+    {% if bar_url %}
+    <h2>Top 10 Frequent Words in Positive Reviews</h2>
+    <img src="{{ bar_url }}" alt="Top Words in Positive Reviews">
+    {% endif %}
+    {% if positive_reviews %}
+    <div class="reviews-section positive-section">
+    <h2 class="reviews-h2">Most Common Positive Reviews</h2>
+    <button id="togglePositive" class="reviews-btn">Show Positive Reviews</button>
+    <ul id="positiveList" style="display:none; margin-top: 10px;">
+    {% for review in positive_reviews %}
+        <li>{{ review }}</li>
+    {% endfor %}
+    </ul>
+    </div>
+    {% endif %}
+
+    {% if negative_reviews %}
+    <div class="reviews-section negative-section">
+    <h2 class="reviews-h2">Most Common Negative Reviews</h2>
+    <button id="toggleNegative" class="reviews-btn">Show Negative Reviews</button>
+    <ul id="negativeList" style="display:none; margin-top: 10px;">
+    {% for review in negative_reviews %}
+        <li>{{ review }}</li>
+    {% endfor %}
+    </ul>
+    </div>
+    {% endif %}
+    {% if chart_sentiment_counts %}
+    <canvas id="sentimentChart" width="400" height="200"></canvas>
+    {% endif %}
+
+
+
+</div>
+<script>
+    document.getElementById('togglePositive').addEventListener('click', function() {
+        var list = document.getElementById('positiveList');
+        var button = document.getElementById('togglePositive');
+        if (list.style.display === 'none') {
+            list.style.display = 'block';
+            button.textContent = 'Hide Positive Reviews';
+        } else {
+            list.style.display = 'none';
+            button.textContent = 'Show Positive Reviews';
+        }
+    });
+
+    document.getElementById('toggleNegative').addEventListener('click', function() {
+        var list = document.getElementById('negativeList');
+        var button = document.getElementById('toggleNegative');
+        if (list.style.display === 'none') {
+            list.style.display = 'block';
+            button.textContent = 'Hide Negative Reviews';
+        } else {
+            list.style.display = 'none';
+            button.textContent = 'Show Negative Reviews';
+        }
+    });
+</script>
+</body>
+</html>

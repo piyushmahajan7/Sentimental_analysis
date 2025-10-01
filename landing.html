@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sentiment Analysis Web App - Landing Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #74ABE2, #5563DE);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0;
+            animation: slideInFromLeft 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            animation: slideInFromRight 1s ease-out 0.5s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #ff6384;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-top: 2rem;
+            animation: bounceIn 1s ease-out 1s both;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        .features {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .features h2 {
+            text-align: center;
+            color: #283593;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+            background: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            animation: fadeInUp 1s ease-out both;
+            animation-delay: calc(var(--i) * 0.2s);
+        }
+
+        .feature-item i {
+            font-size: 3rem;
+            color: #283593;
+            margin-bottom: 1rem;
+        }
+
+        .feature-item h3 {
+            color: #283593;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes slideInFromLeft {
+            0% { transform: translateX(-100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInFromRight {
+            0% { transform: translateX(100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="container">
+            <h1><i class="fas fa-shield-alt" style="color: #ff6384; margin-right:10px;"></i>Sentiment Analysis Web App</h1>
+            <p>Visualizes user sentiments from uploaded reviews.</p>
+            <a href="/index" class="cta-button">Get Started</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+        <h2>Project Focus</h2>
+        <div class="feature-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+            <div class="feature-item" style="padding: 1rem; background: #f9f9f9; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h3>AI-Powered Sentiment Insights</h3>
+                <p>Instantly analyze and classify reviews using advanced artificial intelligence.</p>
+            </div>
+            <div class="feature-item" style="padding: 1rem; background: #f9f9f9; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h3>User-Friendly Upload</h3>
+                <p>Seamless CSV upload for rapid review processing—no technical expertise required.</p>
+            </div>
+            <div class="feature-item" style="padding: 1rem; background: #f9f9f9; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h3>Actionable Visualization</h3>
+                <p>Charts and tables deliver clear feedback on customer mood, trends, and satisfaction.</p>
+            </div>
+            <div class="feature-item" style="padding: 1rem; background: #f9f9f9; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h3>Reliable Results</h3>
+                <p>Machine learning ensures accurate sentiment classification for meaningful decision-making.</p>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Sentiment Analysis Web App. All rights reserved.</p>
+            <!-- Removed dummy feedback block as per user request -->
+        </div>
+    </footer>
+
+    <!-- Feedback Modal -->
+    <div id="feedbackModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h2>Feedback</h2>
+            <textarea id="feedbackText" placeholder="Enter your feedback here..." rows="5" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+            <button id="submitFeedback" style="background-color: #283593; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: 600; margin-top: 10px;">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        const dummyFeedback = document.getElementById('dummyFeedback');
+        const feedbackModal = document.getElementById('feedbackModal');
+        const closeModal = document.getElementById('closeModal');
+        const submitFeedback = document.getElementById('submitFeedback');
+        const feedbackText = document.getElementById('feedbackText');
+
+        dummyFeedback.addEventListener('click', () => {
+            feedbackModal.style.display = 'block';
+        });
+
+        closeModal.addEventListener('click', () => {
+            feedbackModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === feedbackModal) {
+                feedbackModal.style.display = 'none';
+            }
+        });
+
+        submitFeedback.addEventListener('click', () => {
+            const feedback = feedbackText.value.trim();
+            if (feedback) {
+                alert('Thank you for your feedback!');
+                feedbackText.value = '';
+                feedbackModal.style.display = 'none';
+            } else {
+                alert('Please enter your feedback before submitting.');
+            }
+        });
+    </script>
+</body>
+</html>
