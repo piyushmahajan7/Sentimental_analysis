@@ -15,7 +15,7 @@ app.config['UPLOAD_FOLDER'] = tempfile.mkdtemp()
 os.makedirs(app.static_folder, exist_ok=True)
 
 # Train model once on startup with dummy data (or provide dataset path)
-model, vectorizer, sentiment_map = train_model()
+model, vectorizer, sentiment_map = train_model('amazon.csv')
 
 @app.route('/')
 def landing():
